@@ -4,13 +4,9 @@ import 'package:provider/provider.dart';
 import '../providers/app_state_provider.dart';
 import '../widgets/activity_card.dart';
 import 'activity1_screen.dart';
-import 'activity2_screen.dart';
+import 'network_monitor_screen.dart';
 import 'settings_screen.dart';
 
-/// HomeScreen is a [StatefulWidget] because it owns one piece of local,
-/// screen-specific UI state: which bottom-nav tab is selected. That state
-/// has nothing to do with the rest of the app, so it does NOT belong in
-/// the global provider — a good illustration of local vs. global state.
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -41,35 +37,23 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.dashboard_rounded, color: theme.colorScheme.primary),
-            const SizedBox(width: 8),
-            Text(
-              'Dashboard',
-              style: TextStyle(
-                color: theme.colorScheme.primary,
-                fontWeight: FontWeight.bold,
-                fontSize: 22,
-              ),
-            ),
-          ],
+        title: Text(
+          'Dashboard',
+          style: theme.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.w600,
+            color: theme.colorScheme.onSurface,
+          ),
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 12),
+            padding: const EdgeInsets.only(right: 8),
             child: IconButton(
               tooltip: 'Toggle theme',
-              style: IconButton.styleFrom(
-                backgroundColor: theme.colorScheme.primaryContainer
-                    .withValues(alpha: 0.4),
-                shape: const CircleBorder(),
-              ),
               icon: Icon(
                 appState.isDarkMode
-                    ? Icons.dark_mode_rounded
-                    : Icons.wb_sunny_rounded,
+                    ? Icons.dark_mode_outlined
+                    : Icons.light_mode_outlined,
+                color: theme.colorScheme.onSurfaceVariant,
               ),
               onPressed: () => appState.toggleTheme(!appState.isDarkMode),
             ),
@@ -94,10 +78,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Hello! ${appState.userName}',
-                        style: theme.textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        'Hello, ${appState.userName}',
+                        style: theme.textTheme.headlineMedium,
                       ),
                       const SizedBox(height: 6),
                       Text(
@@ -109,9 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       const SizedBox(height: 28),
                       Text(
                         'Laboratory Activities',
-                        style: theme.textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: theme.textTheme.titleLarge,
                       ),
                       const SizedBox(height: 16),
                       ActivityCard(
@@ -133,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         onViewActivity: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const Activity2Screen(),
+                            builder: (_) => const NetworkMonitorScreen(),
                           ),
                         ),
                       ),
